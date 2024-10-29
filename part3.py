@@ -39,6 +39,9 @@ convert it to an integer and return it. You should get "12345".
 
 # You may need to conda install requests or pip3 install requests
 import requests
+# I found this helpful
+import subprocess
+import os
 
 def download_file(url, filename):
     r = requests.get(url)
@@ -46,25 +49,30 @@ def download_file(url, filename):
         f.write(r.content)
 
 def clone_repo(repo_url):
-    # TODO
-    raise NotImplementedError
+    if os.path.exists("119-hw1"):
+        print("'119-hw1' exists")
+    else:
+        subprocess.run(["git", "clone", repo_url], check=True)
 
 def run_script(script_path, data_path):
-    # TODO
-    raise NotImplementedError
+    subprocess.run(["python", script_path, data_path], check=True)
 
 def setup(repo_url, data_url, script_path):
-    # TODO
-    raise NotImplementedError
+    clone_repo(repo_url)
+    data_filename = "test-input.txt"
+    download_file(data_url, data_filename)
+    run_script(script_path, data_filename)
 
 def q1():
     # Call setup as described in the prompt
-    # TODO
+    setup("https://github.com/DavisPL-Teaching/119-hw1",
+        "https://raw.githubusercontent.com/DavisPL-Teaching/119-hw1/refs/heads/main/data/test-input.txt",
+        "test-script.py")
     # Read the file test-output.txt to a string
-    # TODO
+    with open("output/test-output.txt", "r") as f:
+        output = int(f.read().strip())
     # Return the integer value of the output
-    # TODO
-    raise NotImplementedError
+    return output
 
 """
 2.
@@ -77,11 +85,16 @@ this scenario?
 
 === ANSWER Q2a BELOW ===
 
+It would make sure that this data is coming from a consistent source and everyone is getting the latest data.
+It will also makes repetitive tasks easy to process and takes much less effort to get the data.
+
 === END OF Q2a ANSWER ===
 
 Do you see an alternative to using a script like setup()?
 
 === ANSWER Q2b BELOW ===
+
+From what I have learned as of now I can not think of a better alternative it seems very useful.
 
 === END OF Q2b ANSWER ===
 
@@ -123,16 +136,22 @@ any packages?
 """
 
 def setup_for_new_machine():
-    # TODO
-    raise NotImplementedError
+    # First I would assume we have to install the packages
+    packages = ["pandas", "numpy", "matplotlib", "seaborn", "requests"]
+    subprocess.run(["pip3", "install"] + packages)
+
+    #Clone repositories
+    repo_url = ""
+    subprocess.run(["git", "clone", repo_url])
+
+    # Creating directories would be the last main step I can think of
+    subprocess.run(["mkdir", "-p", "data/output"])
 
 def q3():
     # As your answer, return a string containing
     # the operating system name that you assumed the
     # new machine to have.
-    # TODO
-    raise NotImplementedError
-    # os =
+    os = "Windows"
     return os
 
 """
@@ -145,6 +164,9 @@ scripts like setup() and setup_for_new_machine()
 in their day-to-day jobs?
 
 === ANSWER Q4 BELOW ===
+
+I would guess 5% as it is important and they might have to do it a lot. But I don't think they 
+should take a very long time to create relative to their other work.
 
 === END OF Q4 ANSWER ===
 
@@ -171,7 +193,10 @@ This series of questions will be in the same style as part 2.
 Let's import the part2 module:
 """
 
+import sys
+sys.path.append('/path/to/part2/directory')
 import part2
+
 import pandas as pd
 
 """
@@ -206,21 +231,31 @@ Hints:
    (shell command that spits output) | wc -l
 """
 
-def pipeline_shell():
-    # TODO
-    raise NotImplementedError
+#def pipeline_shell():
+    #command = "cat population.csv | tail -n +2 | wc -l"
+    #result = os.popen(command).read().strip()
     # Return resulting integer
+    #return int(result)
+
+def pipeline_shell():
+    # Open population.csv file and count rows manually, excluding the header line
+    with open("data\population.csv", "r") as f:
+        # Skip the header line and count the remaining lines
+        row_count = sum(1 for line in f) - 1
+    return row_count
 
 def pipeline_pandas():
-    # TODO
-    raise NotImplementedError
+    df = pd.read_csv("population.csv")
     # Return resulting integer
+    return len(df)
 
 def q6():
     # As your answer to this part, check that both
     # integers are the same and return one of them.
-    # TODO
-    raise NotImplementedError
+    shell_count = pipeline_shell()
+    pandas_count = pipeline_pandas()
+    assert shell_count == pandas_count
+    return shell_count
 
 """
 Let's do a performance comparison between the two methods.
@@ -236,8 +271,13 @@ def q7():
     # Return a tuple of two floats
     # throughput for shell, throughput for pandas
     # (in rows per second)
-    # TODO
-    raise NotImplementedError
+    h = ThroughputHelper()
+    # Add pipelines
+    h.add_pipeline("shell_pipeline", size = 1, func=pipeline_shell)
+    h.add_pipeline("pandas_pipeline", size = 1, func=pipeline_pandas)
+    throughputs = h.compare_throughput()
+    # Return throughputs for both
+    return (throughputs[0], throughputs[1])
 
 """
 8. Latency
@@ -247,8 +287,13 @@ def q8():
     # Return a tuple of two floats
     # latency for shell, latency for pandas
     # (in milliseconds)
-    # TODO
-    raise NotImplementedError
+    h = LatencyHelper()
+    # Add pipeliones
+    h.add_pipeline("shell_pipeline", func=pipeline_shell)
+    h.add_pipeline("pandas_pipeline", func=pipeline_pandas)
+    latencies = h.compare_latency()
+    # Return latencies
+    return (latencies[0], latencies[1])
 
 """
 9. Which method is faster?

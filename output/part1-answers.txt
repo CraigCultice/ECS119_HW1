@@ -1,0 +1,28 @@
+q1,3
+q2,True
+q3a,True
+q4,['Massachusetts Institute of Technology (MIT)', 'University of Zurich', 'The University of Auckland', 'The London School of Economics and Political Science (LSE)', 'The Hong Kong Polytechnic University']
+q5a,[100, 100, 100, 100, 100, 100, 100, 100]
+q5b,[100, 100, 100, 100, 100, 100, 100, 100]
+q5c,100
+q6c,0
+q7,[9, 9, 9]
+q8a,29
+q9,[np.float64(67.041), np.float64(67.68), np.float64(73.539), np.float64(82.147), np.float64(75.504)]
+q10,5
+q11,academic reputation       82.25
+employer reputation       75.30
+faculty student          100.00
+citations per faculty     95.95
+overall score             91.80
+Name: Singapore, dtype: float64
+q12,('Argentina', 'Scotland')
+q13,output/13a.png
+q14a,output/14a.png
+q15,(10, 4)
+q16,['University', 'Overall Score 2019', 'Overall Score 2020', 'Overall Score 2021']
+q17,output/17a.png
+q18,output/18.png
+q20a,130.99
+q20b,['University of California, Berkeley (UCB)', 'ETH Zurich - Swiss Federal Institute of Technology', 'Massachusetts Institute of Technology (MIT)', 'California Institute of Technology (Caltech)', 'The Australian National University', 'University of Oxford', 'EPFL', 'The University of New South Wales (UNSW Sydney)', 'UCL', 'Princeton University']
+q21,['University of California, Berkeley (UCB)', 'Massachusetts Institute of Technology (MIT)', 'Stanford University', 'Harvard University', 'University of Oxford', 'California Institute of Technology (Caltech)', 'ETH Zurich - Swiss Federal Institute of Technology', 'University of Cambridge', 'UCL', 'Imperial College London']
